@@ -1,0 +1,200 @@
+<div class="row" id="step-1">
+    <div class="col-md-12">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Asientos Registradas</h3>
+                <div class="box-tools pull-right" style="display: inline-flex; right: 25px !important;">
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="Search...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                    <div style="padding-left: 5px; padding-top: 1px">
+                        <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="newaccounting()" title="Nuevo"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Fecha</th>
+                            <th>Code</th>
+                            <th>Tipo Cambio</th>
+                            <th>Glosa</th>
+                            <th>Usuario</th>
+                            <th class="columnIcon"></th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="accounting in accountings | paginate" ng-class="{selectelement:accountingselected.id==accounting.id}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{accounting.dateregister}}</td>
+                            <td>{{accounting.code}}</td>
+                            <td>{{accounting.exchangerate}}</td>
+                            <td>{{accounting.description}}</td>
+                            <td>{{accounting.User.username}}</td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="selectedaccounting(accounting,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedaccounting(accounting,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="step-2">
+    <div class="col-md-4 col-xs-12">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Asiento Contable</h3>
+            </div>
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="dateregister">Fecha <span class="required">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" id="dateregister" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+                                order="1" ng-model="editaccounting.dateregister" validate="date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exchangerate">Tipo de Cambio <span class="required">*</span></label>
+                        <input type="text" id="exchangerate" class="form-control columnNumber" ngfocus ng-model="editaccounting.exchangerate" validate="number"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="code">CODE <span class="required">*</span></label>
+                        <input type="text" id="code" class="form-control" ngfocus ng-model="editaccounting.code" validate="text-number-hour" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Glosa <span class="required">*</span></label>
+                        <textarea id="description" class="form-control" ngfocus ng-model="editaccounting.description" required rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="cancel()" title="Limpiar controles">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="saveaccounting()"
+                        title="Guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8 col-xs-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Adicionar</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="idaccount">Cuenta contable <span class="required">*</span></label>
+                            <select id="idaccount" class="form-control" ng-options="account.numberid + ' ' + account.title group by account.Group.title for account in listaccount"
+                                ng-model="selectedaccount" required></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="detail">Glosa <span class="required">*</span></label>
+                            <textarea id="detail" class="form-control" ngfocus ng-model="detail" required rows="1"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="debit">Debe <span class="required">*</span></label>
+                            <input type="text" id="debit" class="form-control columnNumber" ngfocus ng-model="debit" validate="number" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="credit">Haber <span class="required">*</span></label>
+                            <input type="text" id="credit" class="form-control columnNumber" ngfocus ng-model="credit" validate="number" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            <label for="idcostcenter">Centro de costo</label>
+                            <select id="idcostcenter" class="form-control" ng-options="costcenter.title for costcenter in listcostcenter" ng-model="selectedcostcenter"
+                                required></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-12">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-sm btn-default pull-right buttonAccounting" ng-click="newaccountingdetail()" title="Adicionar item"
+                                ng-disabled="validatecontrolsdetail()">
+                                <i class="fa fa-plus-square"></i> Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <section class="invoice sectionAccounting">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="columnIndex">#</th>
+                                        <th>Cuenta</th>
+                                        <th>Debito</th>
+                                        <th>Credito</th>
+                                        <th>Glosa</th>
+                                        <th>Centro Costo</th>
+                                        <th class="columnIcon"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="accountingdetail in accountingdetails | filterDeleteGrid" ng-class="{selectelement:accountingdetailselected.id==accountingdetail.id}">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{accountingdetail.name}}</td>
+                                        <td class="columnNumber">{{accountingdetail.debit}}</td>
+                                        <td class="columnNumber">{{accountingdetail.credit}}</td>
+                                        <td class="columnNumber">{{accountingdetail.detail}}</td>
+                                        <td>{{accountingdetail.detail}}</td>
+                                        <td>{{accountingdetail.namecost}}</td>
+                                        <td ng-click="deleteaccountingdetail(accountingdetail)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td class="rowTotal">Sub-Total</td>
+                                        <td class="rowTotal">{{ sumDebit }}</td>
+                                        <td class="rowTotal">{{ sumCredit }}</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modaldeleteaccounting" class="modal fade bs-example-modal-sm" tabindex="-1" warehouse="dialog" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Asiento contable</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteaccounting()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

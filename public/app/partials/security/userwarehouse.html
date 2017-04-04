@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Almacenes por Usuario Registrados</h3>
+                <div class="box-tools pull-right">
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="Search...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Usuario</th>
+                            <th>Nombre completo</th>
+                            <th>Almacen</th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="userwarehouse in userwarehouses | paginate" ng-class="{selectelement:userwarehouseselected.id==userwarehouse.id}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{userwarehouse.User.username}}</td>
+                            <td>{{userwarehouse.User.fullName}}</td>
+                            <td>{{userwarehouse.Warehouse.title}}</td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selecteduserwarehouse(userwarehouse,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Asignar Almacenes al Usuario</h3>
+            </div>
+            <form role="form">
+                <div class="box-body formMinHeight">
+                    <div class="form-group">
+                        <label for="iduser">Usuario <span class="required">*</span></label>
+                        <select id="iduser" class="form-control" ng-options="user.fullName for user in listuser" ng-model="selecteduser" required
+                            ng-enter="saveuser()">                            
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idwarehouse">Almacen <span class="required">*</span></label>
+                        <select id="idwarehouse" class="form-control" ng-options="warehouse.title for warehouse in listwarehouse" ng-model="selectedwarehouse"
+                            required ng-enter="saveuserwarehouse()">                            
+                        </select>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="newuserwarehouse()" title="Limpiar controles">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="saveuserwarehouse()"
+                        title="Guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modaldeleteuserwarehouse" class="modal fade bs-example-modal-sm" tabindex="-1" userwarehouse="dialog" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar registro</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteuserwarehouse()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

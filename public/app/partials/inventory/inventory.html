@@ -1,0 +1,201 @@
+<div class="row" id="step-1">
+    <div class="col-md-12">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Transacciones Registradas</h3>
+                <div class="box-tools pull-right" style="display: inline-flex; right: 25px !important;">
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="Search...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                    <div style="padding-left: 5px; padding-top: 1px">
+                        <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="newinventory()" title="Nuevo"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Fecha</th>
+                            <th>Almacen</th>
+                            <th>Code</th>
+                            <th>Tipo</th>
+                            <th>Total</th>
+                            <th>Usuario</th>
+                            <th class="columnIcon"></th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="inventory in inventories | paginate" ng-class="{selectelement:inventorieselected.id==inventory.id}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{inventory.dateregister}}</td>
+                            <td>{{inventory.Warehouse.title}}</td>
+                            <td>{{inventory.code}}</td>
+                            <td ng-show="inventory.type == '0'">Egreso</td>
+                            <td ng-hide="inventory.type == '0'">Ingreso</td>
+                            <td>{{inventory.total}}</td>
+                            <td>{{inventory.User.username}}</td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="selectedinventory(inventory,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedinventory(inventory,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="step-2">
+    <div class="col-md-4">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Transaccion de Inventario</h3>
+            </div>
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="dateregister">Fecha <span class="required">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" id="dateregister" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+                                order="1" ng-model="editinventory.dateregister" validate="date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="idwarehouse">Almacen <span class="required">*</span></label>
+                        <select id="idwarehouse" class="form-control" ng-options="warehouse.title for warehouse in listwarehouse" ng-model="selectedwarehouse"
+                            required>                            
+                                </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="typeprice">Tipo precio <span class="required">*</span></label>
+                        <select id="typeprice" class="form-control" required ng-model="selectedtypeprice" ng-change="selecteditemchange()">
+                                    <option value="" disabled selected>Elija un tipo</option>
+                                    <option value="0">Unitario</option>
+                                    <option value="1">Mayorista</option>
+                                </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Tipo <span class="required">*</span></label>
+                        <select id="type" class="form-control" required ng-model="selectedtype">
+                            <option value="" disabled selected>Elija un tipo</option>
+                            <option value="0">Egreso</option>
+                            <option value="1">Ingreso</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="code">CODE <span class="required">*</span></label>
+                        <input type="text" id="code" class="form-control" ngfocus ng-model="editinventory.code" validate="text-number-hour" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner">Responsable <span class="required">*</span></label>
+                        <input type="text" id="owner" class="form-control" ngfocus ng-model="editinventory.owner" validate="text-number-hour" required>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="cancel()" title="Limpiar controles">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="saveinventory()"
+                        title="Guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Adicionar Items</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="iditem">Item <span class="required">*</span></label>
+                        <select id="iditem" class="form-control" ng-options="item.name for item in listitem" ng-model="selecteditem" required ng-change="selecteditemchange()">
+                                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Cantidad <span class="required">*</span></label>
+                        <input type="text" id="quantity" class="form-control columnNumber" ngfocus ng-model="quantity" validate="number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Precio <span class="required">*</span></label>
+                        <input type="text" id="price" class="form-control columnNumber" ngfocus ng-model="price" validate="number" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="cost">Costo <span class="required">*</span></label>
+                        <input type="text" id="cost" class="form-control columnNumber" ngfocus ng-model="cost" validate="number" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="newinventorydetail()" title="Adicionar item" ng-disabled="validatecontrolsdetail()">
+                        <i class="fa fa-plus-square"></i> Agregar</button>
+                    </div>
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <section class="invoice sectionVertical">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="columnIndex">#</th>
+                                    <th>Item</th>
+                                    <th>Precio</th>
+                                    <th>Costo</th>
+                                    <th>Cantidad</th>
+                                    <th>Sub-Total</th>
+                                    <th class="columnIcon"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="inventorydetail in inventorydetails | filterDeleteGrid" ng-class="{selectelement:inventorydetailselected.id==inventorydetail.id}">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{inventorydetail.name}}</td>
+                                    <td class="columnNumber">{{inventorydetail.cost}}</td>
+                                    <td class="columnNumber">{{inventorydetail.price}}</td>
+                                    <td class="columnNumber">{{inventorydetail.quantity}}</td>
+                                    <td class="columnNumber">{{inventorydetail.quantity * inventorydetail.price}}</td>
+                                    <td ng-click="deleteinventorydetail(inventorydetail)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="rowTotal">Total</td>
+                                    <td class="rowTotal">{{ sumTotal }}</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modaldeleteinventory" class="modal fade bs-example-modal-sm" tabindex="-1" warehouse="dialog" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Transaccion de inventario</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteinventory()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

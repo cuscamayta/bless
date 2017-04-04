@@ -1,0 +1,144 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Roles Registrados</h3>
+                <div class="box-tools pull-right">
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="Search...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Descripción</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th class="columnIcon"></th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="item in items | paginate" ng-class="{selectelement:itemselected.id==item.id}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.make}}</td>
+                            <td>{{item.model}}</td>
+                            <td ng-click="selecteditem(item,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selecteditem(item,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Registrar Rol</h3>
+            </div>
+
+            <form role="form">
+                <div class="box-body formMinHeight">
+                    <div class="form-group">
+                        <label for="name">Descripcion<span class="required">*</span></label>
+                        <input type="text" id="name" class="form-control" ngfocus order="1" ng-model="edititem.name" validate="text-number" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="make">Marca<span class="required">*</span></label>
+                                <input type="text" id="make" class="form-control" ngfocus ng-model="edititem.make" validate="text-number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="model">Modelo<span class="required">*</span></label>
+                                <input type="text" id="model" class="form-control" ngfocus ng-model="edititem.model" validate="text-number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="unitprice">Precio unitario<span class="required">*</span></label>
+                                <input type="text" id="unitprice" class="form-control columnNumber" ngfocus ng-model="edititem.unitprice" validate="number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="wholesaleprice">Precio mayorista<span class="required">*</span></label>
+                                <input type="text" id="wholesaleprice" class="form-control columnNumber" ngfocus ng-model="edititem.wholesaleprice" validate="number"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="cost">Costo<span class="required">*</span></label>
+                                <input type="text" id="cost" class="form-control columnNumber" ngfocus ng-model="edititem.cost" validate="number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="minstock">Minimo en stock <span class="required">*</span></label>
+                                <input type="text" id="minstock" class="form-control columnNumber" ngfocus ng-model="edititem.minstock" validate="number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="serialnumber">Nro serie <span class="required">*</span></label>
+                                <input type="text" id="serialnumber" class="form-control" ngfocus order="1" ng-model="edititem.serialnumber" validate="text-number"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="barcode">Cod barra <span class="required">*</span></label>
+                                <input type="text" id="barcode" class="form-control" ngfocus order="1" ng-model="edititem.barcode" validate="text-number"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="detail">Detalle </label>
+                        <input type="text" id="detail" class="form-control" ngfocus ng-model="edititem.detail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Tipo item <span class="required">*</span></label>
+                        <input type="text" id="type" class="form-control" ngfocus ng-model="edititem.type" validate="text-number" required>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="newrole()" title="Limpiar controles">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="saveitem()" title="Guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="modaldeleteitem" class="modal fade bs-example-modal-sm" tabindex="-1" item="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar almacen</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deleteitem()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

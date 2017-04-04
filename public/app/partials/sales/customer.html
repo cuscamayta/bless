@@ -1,0 +1,99 @@
+<div class="row">
+	<div class="col-md-6">
+		<div class="box box-default box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">Clientes Registrados</h3>
+				<div class="box-tools pull-right">
+					<div class="has-feedback">
+						<input type="text" class="form-control input-sm" placeholder="Search...">
+						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					</div>
+				</div>
+			</div>
+			<div class="box-body">
+				<table class="table tableMinheight">
+					<thead>
+						<tr>
+							<th class="columnIndex">#</th>
+							<th>Nombre</th>
+							<th>CI/NIT</th>
+							<th>Direccion</th>
+							<th>Telefono</th>
+							<th>Correo</th>
+							<th class="columnIcon"></th>
+							<th class="columnIcon"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="even pointer" ng-repeat="customer in customers | paginate" ng-class="{selectelement:customerselected.id==customer.id}">
+							<td>{{$index}}</td>
+							<td>{{customer.fullname}}</td>
+							<td>{{customer.numberid}}</td>
+							<td>{{customer.address}}</td>
+							<td>{{customer.phone}}</td>
+							<td>{{customer.email}}</td>
+							<td ng-click="selectedcustomer(customer,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+							<td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedcustomer(customer,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="box-tools">
+				<paginator></paginator>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">Registrar Cliente</h3>
+			</div>
+			<form role="form">
+				<div class="box-body formMinHeight">
+					<div class="form-group">
+						<label for="fullname">Nombre Completo <span class="required">*</span></label>
+						<input type="text" id="fullname" class="form-control" ngfocus ng-model="editcustomer.fullname" validate="text-number" required>
+					</div>
+					<div class="form-group">
+						<label for="numberid">CI/NIT <span class="required">*</span></label>
+						<input type="number" id="numberid" class="form-control" ngfocus ng-model="editcustomer.numberid" validate="number" required>
+					</div>
+					<div class="form-group">
+						<label for="address">Direccion <span class="required">*</span></label>
+						<input type="text" id="address" class="form-control" ngfocus ng-model="editcustomer.address" validate="text-number" required>
+					</div>
+					<div class="form-group">
+						<label for="phone">Telefono <span class="required">*</span></label>
+						<input type="text" id="phone" class="form-control" ngfocus ng-model="editcustomer.phone" validate="text-number" required>
+					</div>
+					<div class="form-group">
+						<label for="email">Correo</label>
+						<input type="email" id="email" class="form-control" ngfocus ng-model="editcustomer.email" validate="mail">
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" class="btn btn-sm btn-default" ng-click="newcustomer()" title="Limpiar clientes">Cancelar</button>
+					<button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="savecustomer()"
+					 title="Guardar">Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="modaldeletecustomer" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title">Eliminar Cliente</h4>
+			</div>
+			<div class="modal-body">
+				<p>¿Esta seguro de eliminar el cliente?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+				<button type="button" class="btn btn-danger" ng-click="deletecustomer()" title="Eliminar">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>

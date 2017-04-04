@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Ventas diarias</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dateinit">Desde <span class="required">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="dateinit" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+                                    order="1" ng-model="filters.dateinit" validate="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dateend">Hasta <span class="required">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" id="dateend" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+                                    order="1" ng-model="filters.dateend" validate="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="idoffice">Sucursal <span class="required">*</span></label>
+                            <div isteven-multi-select input-model="listoffice" output-model="offices" max-labels="3" button-label="title" item-label="title"
+                                tick-property="ticked" search-property='title'>
+                            </div>
+                            {{offices}}
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group" style="margin-top: 25px">
+                            <button type="button" class="btn btn-sm btn-primary" ng-disabled="validatecontrols()" ng-click="generatedailysale()" title="Obtener ventas">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <section class="invoice sectionDetail">
+                    <div ng-show="listsales.length <= 0" class="alert-no-data">No existen datos para mostrar</div>
+                    <table ng-show="listsales.length > 0" class="table tableMinheight">
+                        <thead>
+                            <tr>
+                                <th class="columnIndex">#</th>
+                                <th>Fecha</th>
+                                <th>Nro orden</th>
+                                <th>Código control</th>
+                                <th>Nro factura</th>
+                                <th>Nro NIT</th>
+                                <th>Nombre</th>
+                                <th>Importe</th>
+                                <th>Sucursal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="even pointer" ng-repeat="sale in listsales" ng-class="{selectelement:saleselected.id==sale.id}">
+                                <td>{{$index + 1}}</td>
+                                <td>{{sale.dateregister}}</td>
+                                <td>{{sale.numberorder}}</td>
+                                <td>{{sale.numbercontrol}}</td>
+                                <td>{{sale.numberinvoice}}</td>
+                                <td>{{sale.numberid}}</td>
+                                <td>{{sale.fullname}}</td>
+                                <td class="columnNumber">{{sale.total}}</td>
+                                <td>{{sale.Office.title}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rowTotal">Total</td>
+                                <td class="rowTotal">{{ sumTotal }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

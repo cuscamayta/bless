@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Paginas Registrados</h3>
+                <div class="box-tools pull-right">
+					<div class="has-feedback">
+						<input type="text" class="form-control input-sm" placeholder="Search...">
+						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					</div>
+				</div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Descripción</th>
+                            <th>Ruta</th>
+                            <th>Módulo</th>
+                            <th class="columnIcon"></th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="page in pages | paginate" ng-class="{selectelement:pageselected.id==page.id}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{page.title}}</td>
+                            <td>{{page.path}}</td>
+                            <td>{{page.Module.title}}</td>
+                            <td ng-click="selectedpage(page,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedpage(page,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Registrar Pagina</h3>
+            </div>
+            <form role="form">
+                <div class="box-body formMinHeight">
+                    <div class="form-group">
+                        <label for="title">Descripción <span class="required">*</span></label>
+                        <input type="text" id="title" class="form-control" ngfocus order="1" ng-model="editpage.title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="path">Ruta <span class="required">*</span></label>
+                        <input type="text" id="path" class="form-control" ngfocus order="1" ng-model="editpage.path" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idmodule">Módulo <span class="required">*</span></label>
+                        <select id="idmodule" class="form-control" ng-options="module.title for module in listmodule" ng-model="selectedmodule" required
+                            ng-enter="savepage()">                            
+                        </select>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="newpage()" title="Limpiar controles">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="savepage()" title="Guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="modaldeletepage" class="modal fade bs-example-modal-sm" tabindex="-1" page="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar página</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deletepage()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

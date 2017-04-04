@@ -1,0 +1,96 @@
+<div class="row">
+	<div class="col-md-6">
+		<div class="box box-default box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">Sucursales Registrados</h3>
+				<div class="box-tools pull-right">
+					<div class="has-feedback">
+						<input type="text" class="form-control input-sm" placeholder="Search...">
+						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					</div>
+				</div>
+			</div>
+			<div class="box-body">
+				<table class="table tableMinheight">
+					<thead>
+						<tr>
+							<th class="columnIndex">#</th>
+							<th>Sucursal</th>
+							<th>Teléfono</th>
+							<th>Dirección</th>
+							<th class="columnIcon"></th>
+							<th class="columnIcon"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="even pointer" ng-repeat="office in offices | paginate" ng-class="{selectelement:officeselected.id==office.id}">
+							<td>{{$index + 1}}.</td>
+							<td>{{office.title}}</td>
+							<td>{{office.phone}}</td>
+							<td>{{office.address}}</td>
+							<td ng-click="selectedoffice(office,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+							<td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedoffice(office,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="box-tools">
+				<paginator></paginator>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">Registrar Sucursal</h3>
+			</div>
+			<form role="form">
+				<div class="box-body formMinHeight">
+					<div class="form-group">
+						<label for="title">Nombre <span class="required">*</span></label>
+						<input type="text" id="title" class="form-control" ngfocus order="1" ng-model="editoffice.title" validate="text-number" required>
+					</div>
+					<div class="form-group">
+						<label for="phone">Telefono <span class="required">*</span></label>
+						<input type="text" id="phone" class="form-control" ngfocus ng-model="editoffice.phone" validate="telephone-number" required>
+					</div>
+					<div class="form-group">
+						<label for="address">Direccion <span class="required">*</span></label>
+						<input type="text" id="address" class="form-control" ngfocus ng-model="editoffice.address" validate="text-number" required>
+					</div>
+					<div class="form-group">
+						<label for="detail">Detalles </label>
+						<input type="text" id="detail" class="form-control" ngfocus ng-model="editoffice.detail" validate="text-number">
+					</div>
+					<div class="form-group">
+						<label for="iddestination">Origen <span class="required">*</span></label>
+						<select id="iddestination" class="form-control" ng-options="destination.title for destination in listdestination" ng-model="selecteddestination"
+						 required ng-enter="saveoffice()">                            
+                        </select>
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" class="btn btn-sm btn-default" ng-click="newoffice()" title="Limpiar controles">Cancelar</button>
+					<button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="saveoffice()" title="Guardar">Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="modaldeleteoffice" class="modal fade bs-example-modal-sm" tabindex="-1" office="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title">Eliminar sucursal</h4>
+			</div>
+			<div class="modal-body">
+				<p>¿Esta seguro de eliminar el registro?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+				<button type="button" class="btn btn-danger" ng-click="deleteoffice()" title="Eliminar">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>

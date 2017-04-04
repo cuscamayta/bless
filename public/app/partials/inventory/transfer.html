@@ -1,0 +1,207 @@
+<div class="row" id="step-1">
+    <div class="col-md-12">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Traspasos Registradas</h3>
+                <div class="box-tools pull-right" style="display: inline-flex; right: 25px !important;">
+                    <div class="has-feedback">
+                        <input type="text" class="form-control input-sm" placeholder="Search...">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                    <div style="padding-left: 5px; padding-top: 1px">
+                        <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="newtransfer()" title="Nuevo"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Fecha</th>
+                            <th>Almacen</th>
+                            <th>Code</th>
+                            <th>Tipo precio</th>
+                            <th>Total</th>
+                            <th>Usuario</th>
+                            <th class="columnIcon"></th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="transfer in transfers | paginate" ng-class="{selectelement:transferselected.id==transfer.id}">
+                            <td>{{$index + 1}}</td>
+                            <td>{{transfer.dateregister}}</td>
+                            <td>{{transfer.Warehouse.title}}</td>
+                            <td>{{transfer.code}}</td>
+                            <td ng-show="transfer.typeprice == '0'">Unitario</td>
+                            <td ng-hide="transfer.typeprice == '0'">Mayorista</td>
+                            <td>{{transfer.total}}</td>
+                            <td>{{transfer.User.username}}</td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedtransfer(transfer,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="step-2">
+    <div class="col-md-4">
+        <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Transaccion de Traspaso</h3>
+            </div>
+            <form role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="dateregister">Fecha <span class="required">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" id="dateregister" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+                                order="1" ng-model="edittransfer.dateregister" validate="date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="idwarehouseinput">Almacen origen<span class="required">*</span></label>
+                        <select id="idwarehouseinput" class="form-control" ng-options="warehouse.title for warehouse in listwarehouse" ng-model="selectedwarehouseinput"
+                            required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idwarehouseoutput">Almacen destino<span class="required">*</span></label>
+                        <select id="idwarehouseoutput" class="form-control" ng-options="warehouse.title for warehouse in listwarehouse | filterSelected :selectedwarehouseinput"
+                            ng-model="selectedwarehouseoutput" required>                            
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="typeprice">Tipo precio <span class="required">*</span></label>
+                        <select id="typeprice" class="form-control" required ng-model="selectedtypeprice" ng-change="selecteditemchange()">
+                                    <option value="" disabled selected>Elija un tipo</option>
+                                    <option value="0">Unitario</option>
+                                    <option value="1">Mayorista</option>
+                                </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="code">CODE <span class="required">*</span></label>
+                        <input type="text" id="code" class="form-control" ngfocus ng-model="edittransfer.code" validate="text-number-hour" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="receivedby">Recibido por <span class="required">*</span></label>
+                        <input type="text" id="receivedby" class="form-control" ngfocus ng-model="edittransfer.receivedby" validate="text-number-hour"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveredby">Entregado por <span class="required">*</span></label>
+                        <input type="text" id="deliveredby" class="form-control" ngfocus ng-model="edittransfer.deliveredby" validate="text-number-hour"
+                            required>
+                    </div>
+                    <div>
+                        <label for="detail">Observaciones <span class="required">*</span></label>
+                        <textarea id="detail" class="form-control" ngfocus ng-model="edittransfer.detail" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-sm btn-default" ng-click="cancel()" title="Limpiar controles">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="savetransfer()"
+                        title="Guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Adicionar Items</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="iditem">Item <span class="required">*</span></label>
+                        <select id="iditem" class="form-control" ng-options="item.name for item in listitem" ng-model="selecteditem" required ng-change="selecteditemchange()">
+                                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Cantidad <span class="required">*</span></label>
+                        <input type="text" id="quantity" class="form-control columnNumber" ngfocus ng-model="quantity" validate="number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Precio <span class="required">*</span></label>
+                        <input type="text" id="price" class="form-control columnNumber" ngfocus ng-model="price" validate="number" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="cost">Costo <span class="required">*</span></label>
+                        <input type="text" id="cost" class="form-control columnNumber" ngfocus ng-model="cost" validate="number" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-sm btn-default pull-right" ng-click="newtransferdetail()" title="Adicionar item" ng-disabled="validatecontrolsdetail()">
+                        <i class="fa fa-plus-square"></i> Agregar</button>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <section class="invoice sectionVertical">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="columnIndex">#</th>
+                                    <th>Item</th>
+                                    <th>Precio</th>
+                                    <th>Costo</th>
+                                    <th>Cantidad</th>
+                                    <th>Sub-Total</th>
+                                    <th class="columnIcon"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="transferdetail in transferdetails | filterDeleteGrid" ng-class="{selectelement:transferdetailselected.id==transferdetail.id}">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{transferdetail.name}}</td>
+                                    <td class="columnNumber">{{transferdetail.cost}}</td>
+                                    <td class="columnNumber">{{transferdetail.price}}</td>
+                                    <td class="columnNumber">{{transferdetail.quantity}}</td>
+                                    <td class="columnNumber">{{transferdetail.quantity * transferdetail.price}}</td>
+                                    <td ng-click="deletetransferdetail(transferdetail)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="rowTotal">Total</td>
+                                    <td class="rowTotal">{{ sumTotal }}</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modaldeletetransfer" class="modal fade bs-example-modal-sm" tabindex="-1" warehouse="dialog" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Transaccion de inventario</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deletetransfer()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

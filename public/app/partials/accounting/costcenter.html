@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="col-md-6">
+		<div class="box box-default box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">Centro de Costos Registrados</h3>
+				<div class="box-tools pull-right">
+					<div class="has-feedback">
+						<input type="text" class="form-control input-sm" placeholder="Search...">
+						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					</div>
+				</div>
+			</div>
+			<div class="box-body">
+				<table class="table tableMinheight">
+					<thead>
+						<tr>
+							<th class="columnIndex">#</th>
+							<th>Descripción</th>
+							<th class="columnIcon"></th>
+							<th class="columnIcon"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="even pointer" ng-repeat="costcenter in costcenters | paginate" ng-class="{selectelement:costcenterselected.id==costcenter.id}">
+							<td>{{$index + 1}}.</td>
+							<td>{{costcenter.title}}</td>
+							<td ng-click="selectedcostcenter(costcenter,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+							<td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedcostcenter(costcenter,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="box-tools">
+				<paginator></paginator>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">Registrar Centro de Costo</h3>
+			</div>
+
+			<form costcenter="form">
+				<div class="box-body formMinHeight">
+					<div class="form-group">
+						<label for="title">Descripcion<span class="required">*</span></label>
+						<input type="text" id="title" class="form-control" placeholder="Centro de costo" ngfocus order="1" ng-model="editcostcenter.title" validate="text-number"
+						 required ng-enter="savecostcenter()">
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" class="btn btn-sm btn-default" ng-click="newcostcenter()" title="Limpiar contcostcenters">Cancelar</button>
+					<button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="savecostcenter()" title="Guardar">Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="modaldeletecostcenter" class="modal fade bs-example-modal-sm" tabindex="-1" costcenter="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title">Eliminar centro de costo</h4>
+			</div>
+			<div class="modal-body">
+				<p>¿Esta seguro de eliminar el registro?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+				<button type="button" class="btn btn-danger" ng-click="deletecostcenter()" title="Eliminar">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>

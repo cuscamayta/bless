@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="blesssystemApp">
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title class="hidden-print">System Bless</title>
+
+	<link rel="icon" type="image/png" href="/app/images/icono.png" />
+
+	<!-- Bootstrap -->
+	<link href="../app/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="../resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../app/libs/adminlte/css/AdminLTE.min.css">
+	<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+	<link rel="stylesheet" href="../app/libs/adminlte/css/skins/_all-skins.css">
+	<link rel="stylesheet" href="../app/libs/multiselect/multiselect_angular.css">
+
+	<!-- bootstrap-daterangepicker -->
+	<link href="../resources/bootstrap-daterangepicker/css/daterangepicker.css" rel="stylesheet">
+
+	<!-- Select2 
+	<link href="../resources/select2/css/select2.min.css" rel="stylesheet">-->
+
+	<!-- jquery.timeentry -->
+	<link href="../resources/jquery.timeentry/css/jquery.timeentry.css" rel="stylesheet">
+
+	<!-- Custom Theme Style -->
+	<!--<link href="../resources/custom/css/custom.min.css" rel="stylesheet">-->
+	<link href="../resources/bless.css" rel="stylesheet">
+
+	<!-- toastr -->
+	<link href="../resources/toastr/css/toastr.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+	<script language="VBScript">
+		sub Print()
+		OLECMDID_PRINT = 6
+		OLECMDEXECOPT_DONTPROMPTUSER = 2
+		OLECMDEXECOPT_PROMPTUSER = 1
+		ECOPT_DONTPROMPTUSER
+		End Sub
+		document.write "<object id='WB' width='0' height='0' classid='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2'></object>"
+	</script>
+</head>
+
+<body class="sidebar-mini skin-blue-light layout-boxed" style="height: auto;">
+	<div class="wrapper" style="height: auto;">
+
+		<header class="main-header">
+			<!-- Logo -->
+			<a href="../../index2.html" class="logo">
+				<!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"><b>B</b>less</span>
+				<!-- logo for regular state and mobile devices -->
+				<span class="logo-lg"><b>System </b>Bless</span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<li class="dropdown user user-menu">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<img src="../app/libs/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+								<span class="hidden-xs">Engineers Working</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="user-header">
+									<img src="../app/libs/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+									<p>
+										Engineers Working
+										<small>2017</small>
+									</p>
+								</li>
+								<li class="user-body">
+									<div class="row">
+										<div class="col-xs-4 text-center">
+											<a href="#">Inicio</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">Detalle</a>
+										</div>
+										<div class="col-xs-4 text-center">
+											<a href="#">Contactos</a>
+										</div>
+									</div>
+								</li>
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" class="btn btn-sm btn-default btn-flat">Perfil</a>
+									</div>
+									<div class="pull-right">
+										<a href="#" class="btn btn-sm btn-default btn-flat">Cerrar Sesion</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<!-- Left side column. contains the logo and sidebar -->
+		<aside class="main-sidebar">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar" style="height: auto;">
+				<!-- sidebar menu: : style can be found in sidebar.less -->
+				<ul class="sidebar-menu">
+					<li class="treeview" ng-repeat="module in listMenuPermit">
+						<a href="#">
+							<i class="{{module.moduleClass}}"></i>
+							<span>{{module.moduleName}}</span>
+						</a>
+						<ul class="treeview-menu">
+							<li ng-repeat="page in module.pages"><a href="#/{{page.path}}"><i class="fa fa-circle-o"></i> {{page.title}}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<!-- /.sidebar -->
+		</aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper" style="min-height: 916px;">
+			<section class="content-header">
+				<h1>
+					ChartJS
+					<small>Preview sample</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li><a href="#">Charts</a></li>
+					<li class="active">ChartJS</li>
+				</ol>
+			</section>
+
+			<section class="content" data-ng-view>
+			</section>
+		</div>
+		<!-- /.content-wrapper -->
+		<footer class="main-footer">
+			<div class="pull-right hidden-xs">
+				<b>Version</b> 1.0
+			</div>
+			<strong>Copyright © 2017 <a href="www.emgineersworking.com">EngineersWorking</a></strong> All rights reserved.
+		</footer>
+
+		<!-- jQuery 2.2.3 -->
+		<script src="../app/libs/jquery-2.2.3.min.js"></script>
+		<script src="../app/libs/jquery-ui-1.11.4.js"></script>
+
+		<!-- Bootstrap 3.3.6 -->
+		<script src="../app/libs/bootstrap/js//bootstrap.min.js"></script>
+		<!-- <script src="../app/libs/jquery.imagemapster.js"></script>-->
+
+		<!-- Slimscroll -->
+		<script src="../app/libs/slimScroll/jquery.slimscroll.min.js"></script>
+		<!-- FastClick -->
+		<script src="../app/libs/fastclick/fastclick.js"></script>
+
+		<!-- AdminLTE App -->
+		<script src="../app/libs/adminlte/js/app.min.js"></script>
+		<!-- AdminLTE for demo purposes -->
+		<script src="../app/libs/adminlte/js/demo.js"></script>
+
+		<script src="../app/libs/moment.min.js"></script>
+
+		<!-- bootstrap-daterangepicker -->
+		<script src="../resources/bootstrap-daterangepicker/js/daterangepicker.js"></script>
+
+		<!-- qrcode -->
+		<script src="resources/qrcode/js/jquery.qrcode.js"></script>
+		<script src="resources/qrcode/js/qrcode.js"></script>
+
+		<!-- toastr -->
+		<script src="resources/toastr/js/toastr.js"></script>
+
+		<!-- jquery.timeentry -->
+		<script src="resources/jquery.timeentry/js/jquery-migrate-1.2.1.js"></script>
+		<script src="resources/jquery.timeentry/js/jquery.timeentry.min.js"></script>
+
+		<!-- Select2 
+		<script src="../resources/select2/js/select2.full.min.js"></script>-->
+
+		<!-- jQuery autocomplete -->
+		<script src="../resources/devbridge-autocomplete/js/jquery.autocomplete.min.js"></script>
+
+		<script src="../resources/custom/js/custom.js"></script>
+
+		<!--angularJS resources-->
+		<!--<script src="app/libs/angular.js"></script>-->
+		<script src="app/libs/angularjs/angular.js"></script>
+		<script src="app/libs/angularjs/angular-route.js"></script>
+		<script src="app/libs/localstore.js"></script>
+		<script src="app/libs/prototype.js"></script>
+		<script src="app/libs/multiselect/multiselect_angular.js"></script>
+		<script src="app/app.js"></script>
+
+		<!--angularJS directives-->
+		<script src="app/directives/pagination.js"></script>
+		<script src="app/directives/validation.js"></script>
+		<script src="app/directives/filtergrid.js"></script>
+		<script src="app/directives/focus.js"></script>
+		<script src="app/directives/enter.js"></script>
+		<script src="app/directives/autocomplete.js"></script>
+		<script src="app/directives/selectAllCheckbox.js"></script>
+		<script src="app/directives/editable.js"></script>
+
+		<!--Controller and Services-->
+		<script src="app/controllers/home/homeController.js"></script>
+		<script src="app/services/home/homeService.js"></script>
+		<script src="app/controllers/home/loginController.js"></script>
+		<script src="app/services/home/loginService.js"></script>
+		<script src="app/services/security/settingService.js"></script>
+		<script src="app/controllers/security/settingController.js"></script>
+		<script src="app/services/security/moduleService.js"></script>
+		<script src="app/controllers/security/moduleController.js"></script>
+		<script src="app/services/security/pageService.js"></script>
+		<script src="app/controllers/security/pageController.js"></script>
+		<script src="app/services/security/userService.js"></script>
+		<script src="app/controllers/security/userController.js"></script>
+		<script src="app/services/security/roleService.js"></script>
+		<script src="app/controllers/security/roleController.js"></script>
+		<script src="app/services/security/permitService.js"></script>
+		<script src="app/controllers/security/permitController.js"></script>
+		<script src="app/services/security/userofficeService.js"></script>
+		<script src="app/controllers/security/userofficeController.js"></script>
+		<script src="app/services/security/userwarehouseService.js"></script>
+		<script src="app/controllers/security/userwarehouseController.js"></script>
+		<script src="app/services/security/officeService.js"></script>
+		<script src="app/controllers/security/officeController.js"></script>
+		<script src="app/services/accounting/orderbookService.js"></script>
+		<script src="app/controllers/accounting/orderbookController.js"></script>
+		<script src="app/services/sales/salesbookService.js"></script>
+		<script src="app/controllers/sales/invalidateController.js"></script>
+		<script src="app/controllers/sales/invoiceController.js"></script>
+		<script src="app/services/sales/invoiceService.js"></script>
+		<script src="app/controllers/report/dailycashController.js"></script>
+		<script src="app/controllers/report/dailysaleController.js"></script>
+		<script src="app/controllers/report/voidedinvoiceController.js"></script>
+		<script src="app/services/sales/saleService.js"></script>
+		<script src="app/services/inventory/warehouseService.js"></script>
+		<script src="app/controllers/inventory/warehouseController.js"></script>
+		<script src="app/services/inventory/itemService.js"></script>
+		<script src="app/controllers/inventory/itemController.js"></script>
+		<script src="app/services/inventory/inventoryService.js"></script>
+		<script src="app/controllers/inventory/inventoryController.js"></script>
+		<script src="app/services/inventory/transferService.js"></script>
+		<script src="app/controllers/inventory/transferController.js"></script>
+		<script src="app/services/treasury/cashboxService.js"></script>
+		<script src="app/controllers/treasury/cashboxController.js"></script>
+		<script src="app/services/common/commonService.js"></script>
+		<script src="app/controllers/sales/saleController.js"></script>
+		<script src="app/controllers/sales/customerController.js"></script>
+		<script src="app/services/sales/customerService.js"></script>
+		<script src="app/controllers/accounting/costcenterController.js"></script>
+		<script src="app/services/accounting/costcenterService.js"></script>
+		<script src="app/controllers/accounting/groupController.js"></script>
+		<script src="app/services/accounting/groupService.js"></script>
+		<script src="app/controllers/accounting/accountController.js"></script>
+		<script src="app/services/accounting/accountService.js"></script>		
+		<script src="app/services/accounting/accountingService.js"></script>
+		<script src="app/controllers/accounting/accountingController.js"></script>
+</body>
+
+</html>

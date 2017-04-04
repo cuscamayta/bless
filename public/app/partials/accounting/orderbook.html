@@ -1,0 +1,138 @@
+<div class="row">
+	<div class="col-md-6">
+		<div class="box box-default box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">Dosificaciones registrados</h3>
+				<div class="box-tools pull-right">
+					<div class="has-feedback">
+						<input type="text" class="form-control input-sm" placeholder="Search...">
+						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					</div>
+				</div>
+			</div>
+			<div class="box-body">
+				<table class="table tableMinheight">
+					<thead>
+						<tr>
+							<th class="columnIndex">#</th>
+							<th>Sucursal</th>
+							<th>Nro Orden</th>
+							<th>Fecha de emisión</th>
+							<th>Límite emisión</th>
+							<th class="columnIcon"></th>
+							<th class="columnIcon"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="even pointer" ng-repeat="orderbook in orderbooks | paginate" ng-class="{selectelement:orderbookselected.id==orderbook.id}">
+							<td>{{$index + 1}}.</td>
+							<td>{{orderbook.Office.title}}</td>
+							<td>{{orderbook.numberorder}}</td>
+							<td>{{orderbook.dateofissue}}</td>
+							<td>{{orderbook.deadline}}</td>
+							<td data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="selectedorderbook(orderbook,1)"><i class="fa fa-pencil-square-o" title="Editar"></i></td>
+							<td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedorderbook(orderbook,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="box-tools">
+				<paginator></paginator>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">Registrar dosificacion</h3>
+			</div>
+			<form role="form">
+				<div class="box-body formMinHeight">
+					<div class="form-group">
+						<label for="numberorder">Numero de orden<span class="required">*</span></label>
+						<input type="text" id="numberorder" class="form-control" ngfocus ng-model="editorderbook.numberorder" validate="number" required>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="dateofissue">Fecha emision <span class="required">*</span></label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input type="text" id="dateofissue" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+									 order="1" ng-model="editorderbook.dateofissue" validate="date">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="deadline">Fecha limite <span class="required">*</span></label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input type="text" id="deadline" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="99/99/9999" ngfocus
+									 order="1" ng-model="editorderbook.deadline" validate="date">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="idoffice">Sucursal<span class="required">*</span></label>
+						<select id="idoffice" class="form-control" ng-options="office.title for office in listoffice" ng-model="selectedoffice" required>                            
+                        </select>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="type">Tipo<span class="required">*</span></label>
+								<select id="type" class="form-control" required ng-enter="saveorderbook()">							
+								<option value="1">Electronica</option>
+							</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="status">Estado<span class="required">*</span></label>
+								<select id="status" class="form-control" required>
+								<option value="" disabled selected>Elija un estado</option>
+								<option value="1">Disponible</option>
+								<option value="2">En uso</option>
+								<option value="3">Lleno</option>
+							</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="controlkey">Llave de control<span class="required">*</span></label>
+						<textarea id="controlkey" class="form-control" ngfocus ng-model="editorderbook.controlkey" required rows="2"></textarea>
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" class="btn btn-sm btn-default" ng-click="newrole()" title="Limpiar controles">Cancelar</button>
+					<button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="saveorderbook()"
+					 title="Guardar">Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="modaldeleteorderbook" class="modal fade bs-example-modal-sm" tabindex="-1" office="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title">Eliminar libro de orden</h4>
+			</div>
+			<div class="modal-body">
+				<p>¿Esta seguro de eliminar el registro?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+				<button type="button" class="btn btn-danger" ng-click="deleteorderbook()" title="Eliminar">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>

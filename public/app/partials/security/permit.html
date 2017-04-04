@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="col-md-6">
+      <div class="box box-default box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Permisos Registrados</h3>
+                <div class="box-tools pull-right">
+					<div class="has-feedback">
+						<input type="text" class="form-control input-sm" placeholder="Search..." ng-model="search">
+						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					</div>
+				</div>
+            </div>
+            <div class="box-body">
+                <table class="table tableMinheight">
+                    <thead>
+                        <tr>
+                            <th class="columnIndex">#</th>
+                            <th>Rol</th>
+                            <th>Página</th>
+                            <th class="columnIcon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="permit in permits | paginate| filter:searchItem" ng-class="{selectelement:permitselected.id==permit.id}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{permit.Role.title}}</td>
+                            <td>{{permit.Page.title}}</td>
+                            <td data-toggle="modal" data-target=".bs-example-modal-sm" ng-click="selectedpermit(permit,2)"><i class="fa fa-trash" title="Eliminar"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-tools">
+                <paginator></paginator>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Asignar permiso por rol</h3>
+            </div>
+            <form role="form">
+                <div class="box-body formMinHeight">
+                    <div class="form-group">
+                        <label for="idrole">Rol <span class="required">*</span></label>
+                        <select id="idrole" class="form-control" ng-options="role.title for role in listrole" ng-model="selectedrole" required ng-enter="saveuser()"
+                            ng-change="clearListPage()">                            
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select-all-checkbox checkboxes="listpage" all-selected="AllSelectedItems" all-clear="NoSelectedItems"></select-all-checkbox> Todos
+                        <div class="form-inline">
+                            <div ng-repeat="item in listpage" class="form-group" style="width: 50%">
+                                &nbsp;<input type="checkbox" ng-model="item.isSelected" />{{item.title}}</div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-sm btn-default" ng-click="newpermit()" title="Limpiar controles">Cancelar</button>
+                        <button type="button" class="btn btn-sm btn-primary pull-right" ng-disabled="validatecontrols()" ng-click="savepermit()"
+                            title="Guardar">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modaldeletepermit" class="modal fade bs-example-modal-sm" tabindex="-1" permit="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar página</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de eliminar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" title="Cerrar">Cancelar</button>
+                <button type="button" class="btn btn-danger" ng-click="deletepermit()" title="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="login-box">
+	<div class="login-logo">
+		<a href="#"><b>System</b>Bless</a>
+	</div>
+	<!-- /.login-logo -->
+	<div class="login-box-body">
+		<p class="login-box-msg">Inicio de Sesion</p>
+
+		<form>
+			<div id="step-1">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control" placeholder="Usuario" required data-ng-model="user.username">
+					<span class="glyphicon glyphicon-user form-control-feedback"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<input type="password" class="form-control" placeholder="Contraseña" data-ng-model="user.password" ng-enter="login()">
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<button type="button" class="btn btn-primary btn-block btn-flat" ng-disabled="validatecontrols()" ng-click="login()">Iniciar</button>
+					</div>
+					<!-- /.col -->
+				</div>
+			</div>
+			<div id="step-2" style="display: none;">
+				<p>Seleccione sucursal</p>
+				<div class="form-group has-feedback">
+					<select id="idoffice" class="form-control" ng-options="office.Office.title for office in listoffice" ng-model="selectedoffice"
+					 required></select>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<button type="button" class="btn btn-primary btn-block btn-flat" ng-disabled="validateoffice()" ng-click="getmenu()">Siguiente</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
